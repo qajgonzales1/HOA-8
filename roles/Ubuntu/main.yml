@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: update package cache for Ubuntu
+    apt: 
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install Nagios on Ubuntu
+    package:
+      name: 
+        - nagios3
+        - nagios-plugins
+    when: ansible_distribution == "Ubuntu"
+
+- name: Ensure Nagios service is enabled and running on Ubuntu
+  service: 
+    name: nagios3
+    state: started
+    enabled: yes
+  when: ansible_distribution == "Ubuntu"
